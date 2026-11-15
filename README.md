@@ -51,4 +51,10 @@ The registration contact supplied by the project author is `sp20101810@gmail.com
 
 ## License
 
-No software or specification license has been selected in this repository yet. Add a LICENSE file only after choosing the license terms you want.
+## License
+
+ZBOOK is currently an open specification proposal (Draft 0.1).
+
+No license has been assigned yet. Licensing terms will be announced in a future version.
+
+For permissions regarding reuse or distribution, please contact the project author.
