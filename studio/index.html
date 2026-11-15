@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ZBOOK Studio</title>
+<style>
+:root{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:#182433;background:#f3f6fa}
+*{box-sizing:border-box}body{margin:0}header{background:#163d59;color:#fff;padding:22px 16px}
+.wrap{max-width:1050px;margin:auto}header h1{margin:0;font-size:clamp(1.7rem,4vw,2.4rem)}header p{margin:5px 0 0;color:#d8e8f2}
+main{max-width:1050px;margin:auto;padding:18px 14px 45px}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}
+.tab{background:#e3ebf2;color:#183b56}.tab.active{background:#176b87;color:white}
+button,.btn{border:0;border-radius:9px;padding:10px 14px;font:inherit;font-weight:650;cursor:pointer;background:#176b87;color:#fff}
+button.secondary{background:#e5edf4;color:#1d4057}button.danger{background:#a53c3c}
+button:disabled{opacity:.5;cursor:not-allowed}
+.panel{display:none}.panel.active{display:block}
+.card{background:white;border:1px solid #dce5ed;border-radius:14px;padding:17px;margin-bottom:14px;box-shadow:0 3px 14px #153d5910}
+h2{font-size:1.15rem;margin:0 0 12px}h3{margin:14px 0 5px}
+label{display:block;font-weight:650;margin:10px 0 4px}
+input[type=text],input[type=url],textarea,select{width:100%;border:1px solid #cbd5df;border-radius:9px;padding:10px;font:inherit;background:#fff}
+textarea{min-height:100px;resize:vertical}.row{display:flex;gap:10px;flex-wrap:wrap}.row>*{flex:1;min-width:180px}
+.muted{color:#647487;font-size:.92rem}.status{background:#eef5f8;border-radius:9px;padding:10px;margin-top:10px;white-space:pre-wrap}
+.chapter{border:1px solid #dce5ed;border-radius:10px;padding:12px;margin:10px 0}
+.chapter-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.preview img{max-width:100%;max-height:360px;display:block;border-radius:8px}.preview audio{width:100%}
+.book-title{font-size:1.7rem;font-weight:750}.chapter-body{line-height:1.7;overflow-wrap:anywhere}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f5f7fa;padding:12px;border-radius:8px}
+small{color:#637386}.pill{display:inline-block;background:#e8f2f6;padding:4px 9px;border-radius:30px;font-size:.8rem}
+footer{text-align:center;color:#718093;padding:15px;font-size:.85rem}
+</style>
+</head>
+<body>
+<header><div class="wrap"><h1>📘 ZBOOK Studio</h1><p>Create · Read · Convert · Validate — ZBOOK format draft 0.1 / data version 1.0</p></div></header>
+<main>
+<div class="card">
+  <strong>Format creator</strong>
+  <div style="font-size:1.35rem;font-weight:750;color:#176b87">Surya Prakash V</div>
+  <small>Creator attribution in this project. Metadata is not cryptographic proof of authorship.</small>
+</div>
+<nav class="tabs" aria-label="ZBOOK tools">
+<button class="tab active" data-tab="create">Book Creator</button>
+<button class="tab" data-tab="read">Reader</button>
+<button class="tab" data-tab="convert">PDF Converter</button>
+<button class="tab" data-tab="validate">Validator</button>
+</nav>
+
+<section id="create" class="panel active">
+<div class="card">
+<h2>Create a ZBOOK</h2>
+<div class="row">
+<div><label for="title">Book title</label><input id="title" type="text" value="My First ZBOOK"></div>
+<div><label for="author">Book author</label><input id="author" type="text" value="Surya Prakash V"></div>
+</div>
+<div class="row">
+<div><label for="language">Language (BCP 47)</label><input id="language" type="text" value="en"></div>
+<div><label for="description">Description</label><input id="description" type="text" placeholder="A short description"></div>
+</div>
+<div class="chapter" id="chapter-0">
+<div class="chapter-head"><strong>Chapter 1</strong></div>
+<label>Chapter title</label><input class="ch-title" type="text" value="Introduction">
+<label>Chapter text (plain text; line breaks are kept)</label><textarea class="ch-text">Welcome to ZBOOK! Write your chapter here.</textarea>
+<label>Optional image</label><input class="ch-image" type="file" accept="image/*">
+<label>Image alternative text</label><input class="ch-alt" type="text" placeholder="Describe the image">
+<label>Optional audio narration</label><input class="ch-audio" type="file" accept="audio/*">
+</div>
+<div id="moreChapters"></div>
+<div class="row">
+<button id="addChapter" class="secondary">+ Add chapter</button>
+<button id="makeBook">Build and download .zbook</button>
+</div>
+<div id="createStatus" class="status" role="status">Create a book and download it as a .zbook file.</div>
+</div>
+</section>
+
+<section id="read" class="panel">
+<div class="card">
+<h2>ZBOOK Reader</h2>
+<p class="muted">Open a ZBOOK JSON file. The reader displays chapters, embedded pictures and audio clips.</p>
+<input id="openBook" type="file" accept=".zbook,.json,application/json">
+<div id="readStatus" class="status">No book opened yet.</div>
+</div>
+<div class="card preview" id="bookView"><span class="muted">Your book will appear here.</span></div>
+</section>
+
+<section id="convert" class="panel">
+<div class="card">
+<h2>PDF to ZBOOK converter</h2>
+<p class="muted">Select a text-based PDF. Each PDF page becomes a ZBOOK chapter. Scanned/image-only PDFs may produce little or no text and need OCR, which this prototype does not provide.</p>
+<input id="pdfFile" type="file" accept="application/pdf,.pdf">
+<div class="row" style="margin-top:12px">
+<button id="convertPdf">Extract PDF text and download ZBOOK</button>
+</div>
+<div id="convertStatus" class="status">PDF conversion uses Mozilla PDF.js loaded from a public CDN, so an internet connection is required for this feature.</div>
+</div>
+</section>
+
+<section id="validate" class="panel">
+<div class="card">
+<h2>Validate a ZBOOK file</h2>
+<p class="muted">Checks the required ZBOOK 1.0 structure and common chapter/resource mistakes. This is a prototype validator, not formal certification.</p>
+<input id="validateFile" type="file" accept=".zbook,.json,application/json">
+<div class="row" style="margin-top:12px">
+<button id="validateBtn">Validate selected file</button>
+<button id="validateSample" class="secondary">Validate built-in sample</button>
+</div>
+<div id="validationResult" class="status">Choose a file or validate the sample.</div>
+</div>
+</section>
+<footer>ZBOOK Studio is an early, local browser prototype. Files are processed in your browser and are not uploaded by this app.</footer>
+</main>
+<script>
+const OWNER = "Surya Prakash V";
+let chapters = 1;
+let lastBook = null;
+const $ = id => document.getElementById(id);
+document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>{
+ document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x===b));
+ document.querySelectorAll(".panel").forEach(x=>x.classList.toggle("active",x.id===b.dataset.tab));
+}));
+function readAsDataURL(file){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file);});}
+function downloadJSON(obj,name){
+ const blob=new Blob([JSON.stringify(obj,null,2)],{type:"application/json;charset=utf-8"});
+ const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);
+}
+function addChapter(){
+ chapters++;const n=chapters, div=document.createElement("div");div.className="chapter";
+ div.innerHTML=`<div class="chapter-head"><strong>Chapter ${n}</strong><button type="button" class="danger remove">Remove</button></div>
+ <label>Chapter title</label><input class="ch-title" type="text" value="Chapter ${n}">
+ <label>Chapter text</label><textarea class="ch-text"></textarea>
+ <label>Optional image</label><input class="ch-image" type="file" accept="image/*">
+ <label>Image alternative text</label><input class="ch-alt" type="text" placeholder="Describe the image">
+ <label>Optional audio narration</label><input class="ch-audio" type="file" accept="audio/*">`;
+ div.querySelector(".remove").onclick=()=>div.remove();$("moreChapters").appendChild(div);
+}
+$("addChapter").onclick=addChapter;
+$("makeBook").onclick=async()=>{
+ try{
+  const nodes=[...document.querySelectorAll("#chapter-0,#moreChapters .chapter")], built=[];
+  for(let i=0;i<nodes.length;i++){
+   const node=nodes[i], item={id:"chapter-"+(i+1),title:node.querySelector(".ch-title").value.trim()||"Chapter "+(i+1),content:node.querySelector(".ch-text").value};
+   const image=node.querySelector(".ch-image").files[0], audio=node.querySelector(".ch-audio").files[0];
+   if(image)item.image={mediaType:image.type||"application/octet-stream",alt:node.querySelector(".ch-alt").value,data:await readAsDataURL(image)};
+   if(audio)item.audio={mediaType:audio.type||"application/octet-stream",data:await readAsDataURL(audio)};
+   built.push(item);
+  }
+  const book={format:"ZBOOK",version:"1.0",ownership:{creator:OWNER,format_name:"ZBOOK",specification_version:"0.1"},
+   metadata:{title:$("title").value.trim()||"Untitled",author:$("author").value.trim(),language:$("language").value.trim()||"und",description:$("description").value},
+   chapters:built,resources:[]};
+  const errors=validateBook(book);if(errors.length)throw new Error(errors.join("\n"));
+  lastBook=book;downloadJSON(book,(book.metadata.title.replace(/[^a-z0-9-_]+/gi,"-").replace(/^-|-$/g,"")||"book")+".zbook");
+  $("createStatus").textContent="Success! Your .zbook file has been created and downloaded.";
+ }catch(e){$("createStatus").textContent="Could not create book: "+e.message;}
+};
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function renderBook(book){
+ const m=book.metadata||{};let html=`<div class="pill">ZBOOK ${esc(book.version)}</div><div class="book-title">${esc(m.title||"Untitled")}</div><p>By ${esc(m.author||"Unknown author")}</p><hr>`;
+ (book.chapters||[]).forEach((c,i)=>{
+  html+=`<h2>${i+1}. ${esc(c.title||"Untitled chapter")}</h2><div class="chapter-body">${esc(c.content||"").replace(/\n/g,"<br>")}</div>`;
+  if(c.image?.data){html+=`<p><img src="${c.image.data}" alt="${esc(c.image.alt||"")}"></p>`;}
+  if(c.audio?.data){html+=`<audio controls preload="none" src="${c.audio.data}"></audio>`;}
+ });
+ $("bookView").innerHTML=html;
+}
+$("openBook").onchange=async e=>{
+ const f=e.target.files[0];if(!f)return;
+ try{const book=JSON.parse(await f.text()), errs=validateBook(book);if(errs.length)throw new Error(errs.join("; "));lastBook=book;renderBook(book);$("readStatus").textContent="Opened "+f.name+" successfully.";}
+ catch(err){$("readStatus").textContent="Unable to open file: "+err.message;}
+};
+function validateBook(b){
+ const e=[];
+ if(!b||typeof b!=="object"||Array.isArray(b))return ["Root must be a JSON object."];
+ if(b.format!=="ZBOOK")e.push('format must be "ZBOOK".');
+ if(typeof b.version!=="string"||!b.version)e.push("version must be a non-empty string.");
+ if(!b.metadata||typeof b.metadata!=="object"||Array.isArray(b.metadata))e.push("metadata must be an object.");
+ else if(typeof b.metadata.title!=="string"||!b.metadata.title.trim())e.push("metadata.title is required.");
+ if(!Array.isArray(b.chapters))e.push("chapters must be an array.");
+ else{
+  const ids=new Set();b.chapters.forEach((c,i)=>{
+   if(!c||typeof c!=="object"||Array.isArray(c)){e.push(`chapters[${i}] must be an object.`);return;}
+   if(typeof c.title!=="string"||!c.title.trim())e.push(`chapters[${i}].title is required.`);
+   if(c.id){if(ids.has(c.id))e.push(`Duplicate chapter id: ${c.id}`);ids.add(c.id);}
+   for(const k of ["image","audio"])if(c[k]&&typeof c[k]!=="object")e.push(`chapters[${i}].${k} must be an object.`);
+   for(const k of ["image","audio"])if(c[k]?.data&&typeof c[k].data!=="string")e.push(`chapters[${i}].${k}.data must be a data URL string.`);
+  });
+ }
+ if(b.resources!==undefined&&!Array.isArray(b.resources))e.push("resources must be an array when present.");
+ return e;
+}
+async function parseValidation(file){
+ try{const obj=JSON.parse(await file.text());return {obj,errors:validateBook(obj)};}
+ catch(err){return {errors:["Invalid JSON: "+err.message]};}
+}
+$("validateBtn").onclick=async()=>{
+ const f=$("validateFile").files[0];if(!f){$("validationResult").textContent="Please select a file first.";return;}
+ const r=await parseValidation(f);$("validationResult").textContent=r.errors.length?"❌ Validation failed:\n• "+r.errors.join("\n• "):"✅ Valid according to this ZBOOK Studio prototype's basic checks.";
+};
+const sample={format:"ZBOOK",version:"1.0",ownership:{creator:OWNER,format_name:"ZBOOK",specification_version:"0.1"},metadata:{title:"Sample ZBOOK",author:OWNER,language:"en"},chapters:[{id:"chapter-1",title:"Welcome",content:"This is a sample ZBOOK chapter."}],resources:[]};
+$("validateSample").onclick=()=>{const e=validateBook(sample);$("validationResult").textContent=e.length?"❌ "+e.join("\n"):"✅ The built-in sample passes the basic checks.";};
+let pdfJsReady=null;
+function loadPdfJs(){
+ if(pdfJsReady)return pdfJsReady;
+ pdfJsReady=new Promise((resolve,reject)=>{
+  const s=document.createElement("script");s.src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
+  s.onload=()=>{pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";resolve();};
+  s.onerror=()=>reject(new Error("Could not load PDF.js. Check your internet connection and try again."));
+  document.head.appendChild(s);
+ });return pdfJsReady;
+}
+$("convertPdf").onclick=async()=>{
+ const f=$("pdfFile").files[0];if(!f){$("convertStatus").textContent="Please select a PDF first.";return;}
+ const btn=$("convertPdf");btn.disabled=true;$("convertStatus").textContent="Reading PDF…";
+ try{
+  await loadPdfJs();const bytes=new Uint8Array(await f.arrayBuffer());const pdf=await pdfjsLib.getDocument({data:bytes}).promise;const ch=[];
+  for(let p=1;p<=pdf.numPages;p++){
+   $("convertStatus").textContent=`Extracting page ${p} of ${pdf.numPages}…`;
+   const page=await pdf.getPage(p), tc=await page.getTextContent();
+   const text=tc.items.map(x=>x.str).join(" ").replace(/[ \t]+/g," ").trim();
+   ch.push({id:"page-"+p,title:"Page "+p,content:text});
+  }
+  const book={format:"ZBOOK",version:"1.0",ownership:{creator:OWNER,format_name:"ZBOOK",specification_version:"0.1"},
+   metadata:{title:f.name.replace(/\.pdf$/i,""),author:"",language:"und",description:"Text extracted from PDF. Original page layout and images may not be preserved."},chapters:ch,resources:[]};
+  downloadJSON(book,f.name.replace(/\.pdf$/i,"")+".zbook");lastBook=book;
+  $("convertStatus").textContent=`Done. Extracted ${pdf.numPages} page(s). A .zbook file was downloaded. Review formatting and images; this converter extracts selectable text only.`;
+ }catch(err){$("convertStatus").textContent="Conversion failed: "+err.message;}
+ finally{btn.disabled=false;}
+};
+</script>
+</body></html>

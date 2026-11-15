@@ -1,0 +1,23 @@
+{
+  "format": "ZBOOK",
+  "version": "1.0",
+  "ownership": {
+    "creator": "Surya Prakash V",
+    "format_name": "ZBOOK",
+    "specification_version": "0.1"
+  },
+  "metadata": {
+    "title": "My First ZBOOK",
+    "author": "Surya Prakash V",
+    "language": "en",
+    "description": "A sample digital book."
+  },
+  "chapters": [
+    {
+      "id": "chapter-1",
+      "title": "Welcome",
+      "content": "Welcome to ZBOOK. Add your own chapters, pictures and audio in ZBOOK Studio."
+    }
+  ],
+  "resources": []
+}

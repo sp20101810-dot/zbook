@@ -1,0 +1,28 @@
+{
+  "format": "ZBOOK",
+  "version": "1.0",
+  "ownership": {
+    "creator": "Surya Prakash V",
+    "format_name": "ZBOOK",
+    "specification_version": "0.1"
+  },
+  "metadata": {
+    "title": "My First ZBOOK",
+    "author": "Surya Prakash V",
+    "language": "en",
+    "description": "A sample book demonstrating the ZBOOK format."
+  },
+  "chapters": [
+    {
+      "id": "chapter-1",
+      "title": "Welcome",
+      "content": "# Welcome to ZBOOK\n\nZBOOK is a proposed digital-book format. This sample includes text, chapter structure, and attribution metadata."
+    },
+    {
+      "id": "chapter-2",
+      "title": "What comes next",
+      "content": "A future version can standardize images, audio, navigation, and accessibility features."
+    }
+  ],
+  "resources": []
+}

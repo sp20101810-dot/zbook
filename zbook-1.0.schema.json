@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/zbook-1.0.schema.json",
+  "title": "ZBOOK 1.0",
+  "type": "object",
+  "required": [
+    "format",
+    "version",
+    "metadata",
+    "chapters"
+  ],
+  "properties": {
+    "format": {
+      "const": "ZBOOK"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^1\\.0$"
+    },
+    "ownership": {
+      "type": "object",
+      "properties": {
+        "creator": {
+          "type": "string"
+        },
+        "format_name": {
+          "const": "ZBOOK"
+        },
+        "specification_version": {
+          "type": "string"
+        },
+        "website": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "additionalProperties": true
+    },
+    "metadata": {
+      "type": "object",
+      "required": [
+        "title"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "author": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "language": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "publisher": {
+          "type": "string"
+        },
+        "published": {
+          "type": "string"
+        },
+        "identifier": {
+          "type": "string"
+        },
+        "rights": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    "chapters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "title"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "title": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "blocks": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "resources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "type",
+          "mediaType"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "image",
+              "audio"
+            ]
+          },
+          "mediaType": {
+            "type": "string"
+          },
+          "data": {
+            "type": "string",
+            "contentEncoding": "base64"
+          },
+          "path": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "navigation": {
+      "type": "array"
+    },
+    "accessibility": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}
