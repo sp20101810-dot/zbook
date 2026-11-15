@@ -47,7 +47,7 @@ This is an evolving proposal. Implementations should identify the exact draft/ve
 
 ## Contact
 
-The registration contact supplied by the project author is `sp20101810@gmail.com`. Avoid publishing personal contact details unless you are comfortable making that email address public. A public project contact address is preferable.
+The registration contact supplied by the project author is `sp20101810@gmail.com`.
 
 
 ## License
