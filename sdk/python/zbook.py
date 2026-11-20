@@ -246,7 +246,9 @@ def _validate_block(block: Any, prefix: str, err: Any) -> None:
 
 
 def _is_safe_relative_path(value: str) -> bool:
-    if value.startswith(("/", "\\")) or "\\" in value or "://" in value:
+    if value in (".", "..") or value.startswith(("/", "\\")) or "\\" in value or "://" in value:
+        return False
+    if re.match(r"^[A-Za-z]:", value):
         return False
     parsed = PurePosixPath(value)
     return not parsed.is_absolute() and all(part not in ("", ".", "..") for part in parsed.parts)
