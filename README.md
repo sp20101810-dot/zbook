@@ -1,15 +1,25 @@
 # ZBOOK
 
-**ZBOOK** is a proposed JSON-based digital-book format using the `.zbook` file extension.
+**ZBOOK** is a JSON-based digital-book format using the `.zbook` file extension.
 
 - **Format creator named by this project:** Surya Prakash V
-- **Proposed media type:** `application/prs.zbook`
-- **Specification:** Draft 0.1
-- **Data format version in the draft:** 1.0
+- **Registered media type:** `application/prs.zbook`
+- **IANA registration status:** Registered
+- **Specification:** Community design draft 0.1
+- **Data format version described by the draft:** 1.0
 
-ZBOOK is intended to represent book metadata and ordered chapters, with optional embedded image and audio resources. This repository contains an early browser-based prototype and a draft specification.
+ZBOOK is designed to represent book metadata and ordered chapters, with optional embedded image and audio resources. This repository contains the draft specification, JSON Schema, example books, and an early browser-based prototype.
 
-> **Status notice:** ZBOOK is a project proposal. The specification is a draft, the software is an early prototype, and the proposed media type must not be described as IANA-registered unless and until it appears in the official IANA registry. Creator/owner fields are project attribution metadata, not cryptographic proof or a legal determination of ownership.
+## IANA media type registration
+
+The media type `application/prs.zbook` is registered in the IANA Media Types Registry.
+
+- **Media type:** `application/prs.zbook`
+- **File extension:** `.zbook`
+- **Registrant listed in the registry:** Surya Prakash V
+- **Registry:** [IANA Media Types Registry](https://www.iana.org/assignments/media-types)
+
+The registration identifies the media type for ZBOOK files. It does not mean that IANA has approved or standardized the ZBOOK format specification, certified reader software, or granted trademark or copyright rights.
 
 ## Repository contents
 
@@ -43,12 +53,11 @@ Open `examples/my-first-book.zbook` in a text editor to inspect the JSON structu
 
 Read [SPECIFICATION-DRAFT-0.1.md](SPECIFICATION-DRAFT-0.1.md) for the current draft rules and [schema/zbook-1.0.schema.json](schema/zbook-1.0.schema.json) for the JSON Schema draft.
 
-This is an evolving proposal. Implementations should identify the exact draft/version they support and handle untrusted input safely.
+The specification remains a community design draft and may evolve. Implementations should identify the exact draft/version they support and handle untrusted input safely.
 
 ## Contact
 
 The registration contact supplied by the project author is `sp20101810@gmail.com`.
-
 
 ## License
 
