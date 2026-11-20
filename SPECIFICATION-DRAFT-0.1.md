@@ -2,14 +2,15 @@
 
 **Format name:** ZBOOK  
 **Filename extension:** `.zbook`  
-**Proposed media type:** `application/prs.zbook`  
-**Specification status:** Community design draft; not an approved IANA standard  
+**Registered media type:** `application/prs.zbook`  
+**IANA media type status:** Registered  
+**Specification status:** Community design draft; this document is not an approved IANA standard  
 **Creator listed by this project:** Surya Prakash V  
 **Version covered by this draft:** ZBOOK 1.0
 
 ## 1. Purpose
 
-ZBOOK is a proposed, open, cross-platform digital-book container. A ZBOOK document can contain book metadata, a sequence of chapters, formatted text, images, audio, and references to other resources. A compatible ZBOOK reader presents the content as a readable book.
+ZBOOK is an open, cross-platform digital-book format. A ZBOOK document can contain book metadata, a sequence of chapters, formatted text, images, audio, and references to other resources. A compatible ZBOOK reader presents the content as a readable book.
 
 ZBOOK is intended to complement—not claim to replace—PDF and EPUB. PDF is useful for fixed page layouts; EPUB is an established reflowable ebook format. ZBOOK should demonstrate a clear interoperability benefit before claiming to replace either.
 
@@ -64,7 +65,7 @@ The optional `ownership` object MAY contain:
 - `specification_version`: version of this specification.
 - `website`: public project/specification URL, when one exists.
 
-The example project records `Surya Prakash V` as the creator named by the project author. This metadata is an attribution claim, not cryptographic proof, a legal ownership determination, or a guarantee that every ZBOOK file was authored by that person. A book's `metadata.author` identifies the book author and is distinct from the format creator.
+The example project records `Surya Prakash V` as the creator named by the project author. The IANA media type registry also lists Surya Prakash V as the registrant for `application/prs.zbook`. These are attribution and registration-record details; they are not cryptographic proof, a legal ownership determination, or a guarantee that every ZBOOK file was authored by that person. A book's `metadata.author` identifies the book author and is distinct from the format creator.
 
 Readers SHOULD show format creator information only when the document's `ownership` object is present and valid, or when the reader is displaying its own clearly labelled built-in format information. Readers MUST NOT treat an arbitrary file's `ownership` field as authenticated identity.
 
@@ -136,13 +137,15 @@ A conforming ZBOOK 1.0 file is UTF-8 JSON. Implementations should follow RFC 825
 ## 14. File extension and media type
 
 - Extension: `.zbook`
-- Proposed media type: `application/prs.zbook`
+- Registered media type: `application/prs.zbook`
 - Required parameters: none
 - Optional parameters: none
 - Fragment identifiers: none defined by this draft
 - Magic number: none; the file is identified by its media type/extension and JSON structure, not a unique byte signature.
 
-The proposed `prs.` tree is intended for a personal registration. IANA acceptance and expert review are separate from publication of this draft. Do not describe the media type as registered until it appears in the IANA registry.
+The media type `application/prs.zbook` is registered in the IANA Media Types Registry. See the [IANA Media Types Registry](https://www.iana.org/assignments/media-types) and search for `application/prs.zbook`.
+
+IANA registration records the media type and its registrant. It does not mean that IANA has approved this specification as a standard, reviewed or certified ZBOOK reader software, or granted trademark or copyright rights. The ZBOOK format specification remains a community design draft.
 
 ## 15. Conformance
 
@@ -161,7 +164,7 @@ See `examples/my-first-book.zbook` and `schema/zbook-1.0.schema.json` in this pr
 
 ## 17. Status and open design decisions
 
-This is an early draft, not a final standard. Before submitting a revised IANA request, publish a stable specification URL and decide:
+The `application/prs.zbook` media type is registered with IANA. This specification remains an early community design draft, not a final standard. Future work should decide:
 - whether Markdown-only chapters or structured content blocks are normative;
 - whether embedded base64 media is acceptable for large books;
 - whether a future ZIP package profile is needed;
