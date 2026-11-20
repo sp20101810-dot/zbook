@@ -8,7 +8,7 @@
 - **Specification:** Community design draft 0.1
 - **Data format version described by the draft:** 1.0
 
-ZBOOK is designed to represent book metadata and ordered chapters, with optional embedded image and audio resources. This repository contains the draft specification, JSON Schema, example books, and an early browser-based prototype.
+ZBOOK is designed to represent book metadata and ordered chapters, with optional embedded image and audio resources. This repository contains the draft specification, JSON Schema, example books, an early browser-based prototype, and an initial Python SDK.
 
 ## IANA media type registration
 
@@ -27,15 +27,47 @@ The registration identifies the media type for ZBOOK files. It does not mean tha
 .
 ├── README.md
 ├── SPECIFICATION-DRAFT-0.1.md
+├── zbook-1.0.schema.json
 ├── schema/
-│   └── zbook-1.0.schema.json
 ├── examples/
-│   └── my-first-book.zbook
+├── sdk/
+│   └── python/
+│       ├── zbook.py
+│       ├── README.md
+│       └── tests/
 └── studio/
     ├── README.txt
     ├── index.html
     └── sample-book.zbook
 ```
+
+## Python SDK (preview)
+
+An initial, dependency-free Python SDK is available in [sdk/python](sdk/python/). It supports loading, parsing, validating, creating, and writing ZBOOK 1.0 JSON documents.
+
+Requirements: Python 3.10 or newer. No third-party packages are required.
+
+From the repository root, try:
+
+```python
+from sdk.python import zbook
+
+book = zbook.new_book("My first programmatic book", author="A. Reader")
+book["chapters"].append({
+    "id": "chapter-1",
+    "title": "Hello",
+    "content": "# Hello ZBOOK\n\nCreated with the Python SDK.",
+})
+zbook.dump(book, "hello.zbook")
+```
+
+Run the SDK tests from the repository root:
+
+```sh
+python -m unittest discover -s sdk/python/tests -v
+```
+
+The SDK is an early reference implementation, not a certified implementation. It does not render Markdown, fetch resource paths or URLs, or execute embedded content. See [the SDK guide](sdk/python/README.md) for details and limitations.
 
 ## Try ZBOOK Studio
 
